@@ -1,13 +1,13 @@
-import pollyfill from "babel-polyfill";
 import path from "path";
 import fs from "fs";
 import defaults from "defaults";
 
 export class Plugin {
 
-    constructor(name, path, props = {}) {
-        this.name = name;
-        this.path = path;
+    constructor(filename, basename, pluginName, props = {}) {
+        this.filename = filename;
+        this.basename = basename;
+        this.pluginName = pluginName;
         this.props = props;
     }
 }
@@ -43,11 +43,11 @@ export default class PluginDirectory {
 
     verifyPlugin(plugin, requirements = {}) {
         requirements = defaults(requirements, {
-            ext: ".js" // @todo allow for multiple
+            ext: /^\.js$/ // @todo allow for multiple
         });
 
         if (plugin.props.stat.isFile()) {
-            if (requirements.ext !== path.extname(plugin.name)) {
+            if (!requirements.ext.test(path.extname(plugin.filename))) {
                 return false;
             }
         }
@@ -80,9 +80,9 @@ export default class PluginDirectory {
                         let pluginShortName = pluginName.replace(
                             opts.match, opts.replace);
 
-                        let plugin = new Plugin(pluginName, pluginPath, {
-                            stat: stat,
-                            shortName: path.basename(pluginShortName, ".js")
+                        let plugin = new Plugin(pluginName, pluginPath, 
+                            path.basename(pluginShortName, ".js"), {
+                            stat: stat
                         });
 
                         if (!plugins.get(pluginName) && this.verifyPlugin(plugin)) {
