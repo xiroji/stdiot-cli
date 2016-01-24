@@ -8,7 +8,6 @@ import tildify from "tildify";
 import {version} from "./../package.json";
 import {statSync, readFileSync} from 'fs';
 import path from "path";
-import ini from "ini";
 import pkg from "../package.json";
 
 import PluginDirectory from './stdiot-plugin';
