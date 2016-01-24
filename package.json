@@ -2,7 +2,7 @@
   "name": "stdiot-cli",
   "version": "0.0.2",
   "description": "",
-  "main": "lib/index.js",
+  "main": "src/cli.js",
   "dependencies": {
     "babel-polyfill": "^6.3.14",
     "chalk": "^1.1.1",
